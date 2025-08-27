@@ -27,6 +27,9 @@ export async function createSessionsTable() {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         situation_description TEXT,
         current_step VARCHAR(50) DEFAULT 'landing',
+        pre_item_1 INTEGER,
+        pre_item_2 INTEGER,
+        pre_item_3 INTEGER,
         metadata JSONB DEFAULT '{}'
       )
     `;
@@ -88,6 +91,29 @@ export async function updateSessionSituation(sessionId: string, situationDescrip
     `;
   } catch (error) {
     console.error('Error updating session situation:', error);
+    throw error;
+  }
+}
+
+// Update session with pre-survey responses
+export async function updateSessionPreSurvey(
+  sessionId: string, 
+  preItem1: number, 
+  preItem2: number, 
+  preItem3: number
+) {
+  try {
+    await sql`
+      UPDATE sessions 
+      SET pre_item_1 = ${preItem1}, 
+          pre_item_2 = ${preItem2}, 
+          pre_item_3 = ${preItem3},
+          current_step = 'pre_survey_completed',
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${sessionId}
+    `;
+  } catch (error) {
+    console.error('Error updating session pre-survey:', error);
     throw error;
   }
 }

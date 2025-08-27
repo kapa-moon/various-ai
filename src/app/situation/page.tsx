@@ -38,8 +38,8 @@ function SituationContent() {
       });
       
       if (response.ok) {
-        // Navigate to the grid page
-        router.push(`/experiment?session=${sessionId}`);
+        // Navigate to the survey page
+        router.push(`/survey?session=${sessionId}`);
       } else {
         console.error('Failed to update situation');
         setIsLoading(false);

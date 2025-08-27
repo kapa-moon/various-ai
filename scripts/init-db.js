@@ -15,6 +15,9 @@ async function initializeDatabase() {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         situation_description TEXT,
         current_step VARCHAR(50) DEFAULT 'landing',
+        pre_item_1 INTEGER,
+        pre_item_2 INTEGER,
+        pre_item_3 INTEGER,
         metadata JSONB DEFAULT '{}'
       )
     `;
