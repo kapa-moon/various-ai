@@ -188,11 +188,11 @@ function SurveyContent() {
   return (
     <div className="min-h-screen flex items-center justify-center px-8 py-12">
       <div className="max-w-3xl w-full space-y-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-medium mb-6">
+        <div>
+          <h1 className="text-2xl font-medium mb-6 text-center">
             {isPostSurvey ? 'Follow-up Survey' : 'Baseline Survey'}
           </h1>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-700 leading-relaxed text-left">
             {isPostSurvey 
               ? 'Please reflect on your experience and answer the following questions. Rate each item on a scale from 1 to 7.'
               : 'Please answer the following questions about your current situation. Rate each item on a scale from 1 to 7.'

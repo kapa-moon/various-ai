@@ -57,9 +57,9 @@ function SituationContent() {
   return (
     <div className="min-h-screen flex items-center justify-center px-8 py-12">
       <div className="max-w-2xl w-full space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-medium mb-6">Describe Your Situation</h1>
-          <p className="text-gray-700 leading-relaxed mb-8">
+        <div>
+          <h1 className="text-2xl font-medium mb-6 text-center">Describe Your Situation</h1>
+          <p className="text-gray-700 leading-relaxed mb-8 text-left">
             Please describe a somewhat difficult conversation or personal challenge you&apos;re facing or preparing for in 2-3 sentences. Include details like: What is the situation? Who is involved? How do you currently feel about it, and what mental state do you hope to reach (e.g., more confident, less anxious, or simply more lighthearted)? This will help the AI tailor its support to your needs.
           </p>
         </div>

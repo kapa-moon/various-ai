@@ -53,9 +53,9 @@ function ExperimentContent() {
   return (
     <div className="min-h-screen flex items-center justify-center px-8 py-12">
       <div className="max-w-4xl w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-medium mb-4">Choose Your AI Companion</h1>
-          <p className="text-gray-700">
+        <div className="mb-8">
+          <h1 className="text-2xl font-medium mb-4 text-center">Choose Your AI Companion</h1>
+          <p className="text-gray-700 text-left">
             Each AI has a different approach to help you explore your situation. Select the one that feels right for your journey today.
           </p>
         </div>
