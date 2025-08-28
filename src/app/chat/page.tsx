@@ -253,7 +253,7 @@ function ChatContent() {
             <div className="text-center text-gray-500 mb-8">
               <p className="mb-4">Your AI companion is ready to help you explore your situation:</p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-left max-w-2xl mx-auto">
-                <p className="text-sm text-blue-800 italic">"{situationDescription}"</p>
+                <p className="text-sm text-blue-800 italic">&ldquo;{situationDescription}&rdquo;</p>
               </div>
               <p className="mt-4 text-sm">Start the conversation by sharing your thoughts or asking a question.</p>
             </div>
@@ -348,7 +348,7 @@ function ChatContent() {
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
               <h3 className="text-lg font-medium text-green-800 mb-2">Session Complete</h3>
               <p className="text-green-700">
-                You've completed your 10-exchange conversation. You'll be redirected to continue your assessment shortly.
+                You&apos;ve completed your 10-exchange conversation. You&apos;ll be redirected to continue your assessment shortly.
               </p>
             </div>
           </div>

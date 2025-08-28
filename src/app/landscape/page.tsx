@@ -257,7 +257,7 @@ function LandscapeContent() {
             ) : (
               <div className="flex items-center justify-between">
                 <span className="text-lg italic text-blue-800">
-                  "{editedStartPhrase || startMetaphor?.phrase}"
+                  &ldquo;{editedStartPhrase || startMetaphor?.phrase}&rdquo;
                 </span>
                 <button
                   onClick={handleStartEdit}
@@ -299,7 +299,7 @@ function LandscapeContent() {
             ) : (
               <div className="flex items-center justify-between">
                 <span className="text-lg italic text-green-800">
-                  "{editedEndPhrase || endMetaphor?.phrase}"
+                  &ldquo;{editedEndPhrase || endMetaphor?.phrase}&rdquo;
                 </span>
                 <button
                   onClick={handleEndEdit}
