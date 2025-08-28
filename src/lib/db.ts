@@ -30,12 +30,60 @@ export async function createSessionsTable() {
         pre_item_1 INTEGER,
         pre_item_2 INTEGER,
         pre_item_3 INTEGER,
+        post_item_1 INTEGER,
+        post_item_2 INTEGER,
+        post_item_3 INTEGER,
+        post_item_4 INTEGER,
+        post_item_5 INTEGER,
+        completed_at TIMESTAMP,
+        open_response TEXT,
+        generated_start_phrase TEXT,
+        generated_end_phrase TEXT,
+        edited_start_phrase TEXT,
+        edited_end_phrase TEXT,
+        journey_progress INTEGER,
+        willingness_to_continue INTEGER,
         metadata JSONB DEFAULT '{}'
       )
     `;
     console.log('Sessions table created successfully');
   } catch (error) {
     console.error('Error creating sessions table:', error);
+    throw error;
+  }
+}
+
+// Add missing columns to existing sessions table
+export async function updateSessionsTableSchema() {
+  try {
+    const columnsToAdd = [
+      'post_item_1 INTEGER',
+      'post_item_2 INTEGER', 
+      'post_item_3 INTEGER',
+      'post_item_4 INTEGER',
+      'post_item_5 INTEGER',
+      'completed_at TIMESTAMP',
+      'open_response TEXT',
+      'generated_start_phrase TEXT',
+      'generated_end_phrase TEXT',
+      'edited_start_phrase TEXT',
+      'edited_end_phrase TEXT',
+      'journey_progress INTEGER',
+      'willingness_to_continue INTEGER'
+    ];
+
+    for (const column of columnsToAdd) {
+      try {
+        await sql.unsafe(`ALTER TABLE sessions ADD COLUMN ${column}`);
+        console.log(`Added column: ${column}`);
+      } catch (error) {
+        // Column might already exist, ignore error
+        console.log(`Column ${column} may already exist:`, error instanceof Error ? error.message : error);
+      }
+    }
+    console.log('Sessions table schema updated successfully');
+  } catch (error) {
+    console.error('Error updating sessions table schema:', error);
     throw error;
   }
 }
@@ -63,6 +111,7 @@ export async function createInteractionsTable() {
 export async function initializeDatabase() {
   await createSessionsTable();
   await createInteractionsTable();
+  await updateSessionsTableSchema();
 }
 
 // Create a new session
