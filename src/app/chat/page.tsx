@@ -49,7 +49,7 @@ function ChatContent() {
       const response = await fetch(`/api/sessions/${sessionId}`);
       if (response.ok) {
         const data = await response.json();
-        setSituationDescription(data.situationDescription || '');
+        setSituationDescription(data.situation_description || data.situationDescription || '');
       }
     } catch (error) {
       console.error('Error fetching situation:', error);

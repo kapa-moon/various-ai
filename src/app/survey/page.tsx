@@ -24,6 +24,19 @@ const PRE_SURVEY_QUESTIONS = [
   }
 ];
 
+const PANAS_ITEMS = [
+  { id: 'active', label: 'Active' },
+  { id: 'alert', label: 'Alert' },
+  { id: 'attentive', label: 'Attentive' },
+  { id: 'determined', label: 'Determined' },
+  { id: 'inspired', label: 'Inspired' },
+  { id: 'afraid', label: 'Afraid' },
+  { id: 'ashamed', label: 'Ashamed' },
+  { id: 'hostile', label: 'Hostile' },
+  { id: 'nervous', label: 'Nervous' },
+  { id: 'upset', label: 'Upset' }
+];
+
 const POST_SURVEY_QUESTIONS = [
   {
     id: 'post_item_1',
@@ -42,6 +55,24 @@ const POST_SURVEY_QUESTIONS = [
     question: 'How likely are you now to have this conversation or work on the situation soon (e.g., within the next few days)?',
     leftLabel: 'Not at all likely',
     rightLabel: 'Extremely likely'
+  },
+  {
+    id: 'post_item_4',
+    question: 'How useful was the AI in helping you prepare for your situation?',
+    leftLabel: 'Not at all useful',
+    rightLabel: 'Extremely useful'
+  },
+  {
+    id: 'post_item_5',
+    question: 'To what extent did you feel in control of the conversation?',
+    leftLabel: 'Not at all in control',
+    rightLabel: 'Completely in control'
+  },
+  {
+    id: 'post_item_6',
+    question: 'Would you use this AI again for similar challenges?',
+    leftLabel: 'Definitely not',
+    rightLabel: 'Definitely yes'
   }
 ];
 
@@ -83,8 +114,41 @@ function LikertScale({
   );
 }
 
+function PANASScale({ 
+  value, 
+  onChange, 
+  label 
+}: { 
+  value: number | null; 
+  onChange: (value: number) => void;
+  label: string;
+}) {
+  return (
+    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+      <span className="font-medium text-gray-700 w-24">{label}</span>
+      
+      <div className="flex space-x-2">
+        {[1, 2, 3, 4, 5].map((num) => (
+          <button
+            key={num}
+            onClick={() => onChange(num)}
+            className={`w-8 h-8 rounded-full border-2 transition-colors ${
+              value === num
+                ? 'bg-black border-black text-white'
+                : 'border-gray-300 hover:border-gray-400 hover:bg-gray-100'
+            }`}
+          >
+            {num}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SurveyContent() {
   const [responses, setResponses] = useState<Record<string, number>>({});
+  const [panasResponses, setPanasResponses] = useState<Record<string, number>>({});
   const [openResponse, setOpenResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -110,10 +174,18 @@ function SurveyContent() {
     }));
   };
 
+  const handlePanasResponseChange = (itemId: string, value: number) => {
+    setPanasResponses(prev => ({
+      ...prev,
+      [itemId]: value
+    }));
+  };
+
   const currentQuestions = isPostSurvey ? POST_SURVEY_QUESTIONS : PRE_SURVEY_QUESTIONS;
   const likertComplete = currentQuestions.every(q => responses[q.id] !== undefined);
+  const panasComplete = PANAS_ITEMS.every(item => panasResponses[item.id] !== undefined);
   const openResponseComplete = !isPostSurvey || openResponse.length >= 20;
-  const isComplete = likertComplete && openResponseComplete;
+  const isComplete = likertComplete && panasComplete && openResponseComplete;
   
 
 
@@ -130,7 +202,11 @@ function SurveyContent() {
           postItem1: responses.post_item_1,
           postItem2: responses.post_item_2,
           postItem3: responses.post_item_3,
+          postItem4: responses.post_item_4,
+          postItem5: responses.post_item_5,
+          postItem6: responses.post_item_6,
           openResponse: openResponse.trim(),
+          panasData: panasResponses,
         };
         
         console.log('Submitting post-survey data:', requestData);
@@ -164,12 +240,13 @@ function SurveyContent() {
             preItem1: responses.pre_item_1,
             preItem2: responses.pre_item_2,
             preItem3: responses.pre_item_3,
+            panasData: panasResponses,
           }),
         });
         
         if (response.ok) {
-          // Navigate to the experiment page
-          router.push(`/experiment?session=${sessionId}`);
+          // Navigate to the pre-landscape page
+          router.push(`/pre-landscape?session=${sessionId}`);
         } else {
           console.error('Failed to submit survey');
           setIsLoading(false);
@@ -190,37 +267,62 @@ function SurveyContent() {
       <div className="max-w-3xl w-full space-y-8">
         <div>
           <h1 className="text-2xl font-medium mb-6 text-center">
-            {isPostSurvey ? 'Follow-up Survey' : 'Baseline Survey'}
+            {isPostSurvey ? 'Follow-up Survey' : 'Pre-Chat Survey'}
           </h1>
           <p className="text-gray-700 leading-relaxed text-left">
             {isPostSurvey 
-              ? 'Please reflect on your experience and answer the following questions. Rate each item on a scale from 1 to 7.'
-              : 'Please answer the following questions about your current situation. Rate each item on a scale from 1 to 7.'
+              ? 'Please reflect on your experience and answer the following questions.'
+              : 'Please answer the following questions about your current situation.'
             }
           </p>
         </div>
         
         <div className="space-y-8">
-          {currentQuestions.map((question, index) => (
-            <div key={question.id} className="space-y-4">
-              <div className="text-lg font-medium">
-                {index + 1}. {question.question}
+          {/* Main survey questions (1-7 scale) */}
+          <div className="space-y-6">
+            <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">Survey Questions</h2>
+            <p className="text-sm text-gray-600">Rate each item on a scale from 1 to 7.</p>
+            {currentQuestions.map((question, index) => (
+              <div key={question.id} className="space-y-4">
+                <div className="text-lg font-medium">
+                  {index + 1}. {question.question}
+                </div>
+                
+                <LikertScale
+                  value={responses[question.id] || null}
+                  onChange={(value) => handleResponseChange(question.id, value)}
+                  leftLabel={question.leftLabel}
+                  rightLabel={question.rightLabel}
+                />
               </div>
-              
-              <LikertScale
-                value={responses[question.id] || null}
-                onChange={(value) => handleResponseChange(question.id, value)}
-                leftLabel={question.leftLabel}
-                rightLabel={question.rightLabel}
-              />
+            ))}
+          </div>
+
+          {/* PANAS emotion items (1-5 scale) */}
+          <div className="space-y-6">
+            <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">Current Emotions</h2>
+            <p className="text-sm text-gray-600">
+              Thinking about the situation you {isPostSurvey ? 'discussed' : 'just described'}, please rate how much you feel each emotion at this moment. Use the scale from 1 (very slightly or not at all) to 5 (extremely).
+            </p>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {PANAS_ITEMS.map((item) => (
+                <PANASScale
+                  key={item.id}
+                  value={panasResponses[item.id] || null}
+                  onChange={(value) => handlePanasResponseChange(item.id, value)}
+                  label={item.label}
+                />
+              ))}
             </div>
-          ))}
+          </div>
           
           {/* Open response field for post-survey */}
           {isPostSurvey && (
-            <div className="space-y-4">
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">Reflection</h2>
               <div className="text-lg font-medium">
-                4. Please share your thoughts about this AI conversation experience. What did you find helpful or challenging? How did it make you feel?
+                Please share your thoughts about this AI conversation experience. What did you find helpful or challenging? How did it make you feel?
               </div>
               <div className="space-y-2">
                 <textarea

@@ -70,15 +70,15 @@ function ExperimentContent() {
               <div className="w-20 h-20 mb-4 mx-auto relative">
                 <Image
                   src="/blue.png"
-                  alt="Inner Cheerleader"
+                  alt="Supportive Inner Voice"
                   width={80}
                   height={80}
                   className="rounded-full group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-medium text-lg mb-2 text-blue-800">Inner Cheerleader</h3>
+              <h3 className="font-medium text-lg mb-2 text-blue-800">Supportive Inner Voice</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Positive self-talk reinforcement that mirrors your voice
+                Mirrors your style with agreeable, positive reinforcement to affirm your thoughts.
               </p>
             </div>
           </button>
@@ -92,15 +92,15 @@ function ExperimentContent() {
               <div className="w-20 h-20 mb-4 mx-auto relative">
                 <Image
                   src="/green.png"
-                  alt="Tough Self-Critic"
+                  alt="Challenging Inner Voice"
                   width={80}
                   height={80}
                   className="rounded-full group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-medium text-lg mb-2 text-green-800">Tough Self-Critic</h3>
+              <h3 className="font-medium text-lg mb-2 text-green-800">Challenging Inner Voice</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Challenging inner voice that exposes flaws with humor
+                Mirrors your style with provocative, humorous counterpoints to expose assumptions.
               </p>
             </div>
           </button>
@@ -114,15 +114,15 @@ function ExperimentContent() {
               <div className="w-20 h-20 mb-4 mx-auto relative">
                 <Image
                   src="/pink.png"
-                  alt="Supportive Friend"
+                  alt="Supportive Companion"
                   width={80}
                   height={80}
                   className="rounded-full group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-medium text-lg mb-2 text-pink-800">Supportive Friend</h3>
+              <h3 className="font-medium text-lg mb-2 text-pink-800">Supportive Companion</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Encouraging companion who believes in your potential
+                Engages agreeably in back-and-forth, offering validation and gentle encouragement.
               </p>
             </div>
           </button>
@@ -136,15 +136,15 @@ function ExperimentContent() {
               <div className="w-20 h-20 mb-4 mx-auto relative">
                 <Image
                   src="/yellow.png"
-                  alt="Reality Check Friend"
+                  alt="Challenging Companion"
                   width={80}
                   height={80}
                   className="rounded-full group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-medium text-lg mb-2 text-yellow-800">Reality Check Friend</h3>
+              <h3 className="font-medium text-lg mb-2 text-yellow-800">Challenging Companion</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Honest friend who gives you the unvarnished truth with care
+                Engages provocatively in back-and-forth, using humor and counterarguments to build resilience.
               </p>
             </div>
           </button>

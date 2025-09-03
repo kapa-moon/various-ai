@@ -73,7 +73,7 @@ function HomeContent() {
     <div className="min-h-screen flex items-center justify-center px-8 py-12">
       <div className="max-w-2xl space-y-6">
         <p className="text-lg leading-relaxed text-gray-800 text-left">
-          Welcome to this experimental AI chatbot designed to help you explore and prepare for personal challenges in a supportive way. Think of it as a digital sounding board that assists in mapping out your thoughts and feelings about real-life situations, like gearing up for a tough conversation. By interacting with the AI, you&apos;ll have a chance to reflect on your goals and build confidence step by step. Let&apos;s get started by describing your situation!
+          Welcome to this experimental AI chatbot designed to help you explore and prepare for personal challenges. Think of it as a digital sounding board that assists in mapping out your thoughts and feelings about real-life situations, like gearing up for a tough conversation. By interacting with the AI, you&apos;ll have a chance to reflect on your goals and build confidence step by step. Let&apos;s get started by describing your situation!
         </p>
         
         <div className="flex justify-center">

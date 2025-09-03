@@ -9,7 +9,7 @@ interface Metaphor {
   phrase: string;
 }
 
-function LandscapeContent() {
+function PreLandscapeContent() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [situationDescription, setSituationDescription] = useState<string>('');
   const [startMetaphor, setStartMetaphor] = useState<Metaphor | null>(null);
@@ -118,8 +118,8 @@ function LandscapeContent() {
     setIsLoading(true);
     
     try {
-      // Save landscape assessment data
-      await fetch('/api/sessions/landscape', {
+      // Save pre-landscape assessment data
+      await fetch('/api/sessions/pre-landscape', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,10 +135,10 @@ function LandscapeContent() {
         }),
       });
 
-      // Navigate to post-survey
-      router.push(`/survey?session=${sessionId}&post=true`);
+      // Navigate to AI selection
+      router.push(`/experiment?session=${sessionId}`);
     } catch (error) {
-      console.error('Error saving landscape data:', error);
+      console.error('Error saving pre-landscape data:', error);
       setIsLoading(false);
     }
   };
@@ -409,7 +409,7 @@ function LandscapeContent() {
             disabled={!isComplete || isLoading}
             className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
-            {isLoading ? 'Saving...' : 'Continue to Final Survey'}
+            {isLoading ? 'Saving...' : 'Continue to AI Selection'}
           </button>
         </div>
       </div>
@@ -417,7 +417,7 @@ function LandscapeContent() {
   );
 }
 
-export default function LandscapePage() {
+export default function PreLandscapePage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
@@ -427,7 +427,7 @@ export default function LandscapePage() {
         </div>
       </div>
     }>
-      <LandscapeContent />
+      <PreLandscapeContent />
     </Suspense>
   );
 }

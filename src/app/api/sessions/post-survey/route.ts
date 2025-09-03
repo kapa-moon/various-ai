@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/lib/db';
+import { updateSessionPostSurvey, logInteraction } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,7 +8,11 @@ export async function POST(request: NextRequest) {
       postItem1, 
       postItem2, 
       postItem3, 
-      openResponse 
+      postItem4, 
+      postItem5, 
+      postItem6, 
+      openResponse,
+      panasData
     } = await request.json();
 
     if (!sessionId) {
@@ -23,6 +27,9 @@ export async function POST(request: NextRequest) {
       postItem1 === undefined || 
       postItem2 === undefined || 
       postItem3 === undefined ||
+      postItem4 === undefined || 
+      postItem5 === undefined || 
+      postItem6 === undefined ||
       !openResponse ||
       openResponse.length < 20
     ) {
@@ -32,16 +39,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate PANAS data if provided
+    if (panasData) {
+      const panasValues = Object.values(panasData) as number[];
+      if (panasValues.some((value: number) => value < 1 || value > 5 || !Number.isInteger(value))) {
+        return NextResponse.json(
+          { error: 'PANAS responses must be integers between 1 and 5' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Update session with post-survey responses
-    await sql`
-      UPDATE sessions 
-      SET post_item_1 = ${postItem1}, 
-          post_item_2 = ${postItem2}, 
-          post_item_3 = ${postItem3}, 
-          open_response = ${openResponse}, 
-          completed_at = CURRENT_TIMESTAMP
-      WHERE id = ${sessionId}
-    `;
+    await updateSessionPostSurvey(sessionId, postItem1, postItem2, postItem3, postItem4, postItem5, postItem6, openResponse, panasData);
+
+    // Log the post-survey completion interaction
+    await logInteraction(sessionId, 'post_survey_completed', {
+      post_item_1: postItem1,
+      post_item_2: postItem2,
+      post_item_3: postItem3,
+      post_item_4: postItem4,
+      post_item_5: postItem5,
+      post_item_6: postItem6,
+      panas_data: panasData || null,
+      open_response: openResponse,
+      timestamp: new Date().toISOString()
+    });
 
     return NextResponse.json({ success: true });
 
