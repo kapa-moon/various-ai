@@ -58,6 +58,7 @@ export async function createSessionsTable() {
         post_upset INTEGER,
         post_item_4 INTEGER,
         post_item_5 INTEGER,
+        post_item_6 INTEGER,
         completed_at TIMESTAMP,
         open_response TEXT,
         pre_generated_start_phrase TEXT,
